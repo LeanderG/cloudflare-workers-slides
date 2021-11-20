@@ -1,40 +1,271 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/night.css" />
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>Cloudflare Workers</h1>
+          <p>A serverless execution environment at the edge</p>
+        </section>
+        <section>
+          <p>Serverless:</p>
+          <ul>
+            <li>Only write functions</li>
+            <li>No need to manage servers</li>
+            <li>Instant automatic scaling</li>
+            <li>Pay-Per-Use</li>
+            <li>No manual security updates needed*</li>
+          </ul>
+        </section>
+        <section>
+          <pre><code class="language-javascript" data-trim>
+				addEventListener("fetch", event => {
+					event.respondWith(handleRequest(event.request))
+				})
+				
+				async function handleRequest(request) {
+					return new Response("Hello world")
+				}</code></pre>
+        </section>
+        <section>
+          Workers are deployed to 250+ datacenters worldwide
+          <p>Azure Functions only deploys to one datacenter at a time</p>
+        </section>
+        <section>Edge computing<img data-src="assets/image1-3.png" /></section>
+        <section>
+          Cold starts
+          <img data-src="assets/cold-start-clock@2x.png" />
+        </section>
+        <section>
+          <p>
+            Neugelb's Christmas project backend runs on Azure Functions and
+            sometimes takes 10s to respond
+          </p>
+        </section>
+        <section><img data-src="assets/isolates-model@2x-1.png" /></section>
+        <section>
+          Workers take 5ms to start
+          <p>How can Cloudflare claim 0ms cold starts?</p>
+          <img width="50%" data-src="assets/coldstart0ms.PNG" />
+        </section>
+        <section>
+          <div class="r-stack">
+            <img data-src="assets/Workers-handshake-after@2x.png" /><img
+              class="fragment"
+              data-src="assets/Workers-handshake-before-@2x.png"
+            />
+          </div>
+        </section>
+        <section><h2>Workers are not Node.js</h2></section>
+        <section>
+          <pre><code class="language-javascript" data-trim>
+          var http = require('http');
+          var url = require('url');
+          var fs = require('fs');</code></pre>
+        </section>
+        <section data-auto-animate>
+          What can we use instead?
+          <h2 class="fragment">Web standards</h2>
+        </section>
+        <section data-auto-animate>
+          <h2>Web standards</h2>
+          <ul>
+            <li>Encoding API</li>
+            <li>URL</li>
+            <li>​Fetch</li>
+            <li>​Timers: setInterval(), setTimeout()</li>
+            <li>Base64 utility methods: atob(), btoa()</li>
+            <li>Event Listeners</li>
+            <li>Web Crypto</li>
+            <li>Streams</li>
+          </ul>
+        </section>
+        <section>
+          CommonJS Modules do not work in workers
+          <pre><code class="language-javascript" data-trim>
+            var http = require('http');</code></pre>
+          <div class="fragment">
+            Instead use ES Modules
+            <pre><code class="language-javascript" data-trim>
+            import { parse } from "cookie"</code></pre>
+          </div>
+        </section>
+        <section>
+          Cloudflare's policy on breaking changes:
+          <blockquote class="fragment">
+            "A change to the Workers Runtime must never break an application
+            that is live in production."
+          </blockquote>
+        </section>
+        <section>
+          <p>
+            Developers may now opt into backwards-incompatible fixes by setting
+            a compatibility date.
+          </p>
+          <pre><code data-trim>
+            # wrangler.toml
+            compatibility_date = "2021-09-20"
+          </code></pre>
+        </section>
+        <section>
+          <p>How does the Worker Runtime implement compatibility dates?</p>
+          <div class="fragment">
+            <pre><code data-trim>
+            if (compatibility_date < "2021-09-20") {
+              // run old behavior
+            } else {
+              // run new behavior
+            }
+          </code></pre>
+          </div>
+        </section>
+        <section>
+          The Worker Runtime is updated at least once a week
+          <p class="fragment">Workers are given 30s to complete any requests</p>
+        </section>
+        <section>
+          <h1>Limits</h1>
+          <ul>
+            <li>50ms CPU Time*</li>
+            <li>128MB per Worker isolate</li>
+            <li>1MB maximum script size*</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Pricing</h2>
+          <p>Generous free plan</p>
+        </section>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+        <section>
+          What's the point of Edge Computing without Edge Storage?
+        </section>
+        <section data-auto-animate>
+          <h2>Workers KV</h2>
+          is a global, low-latency, key-value data store
+        </section>
+        <section data-auto-animate>
+          <h2>Workers KV</h2>
+          <ul>
+            <li class="fragment">
+              Good for frequent reads and infrequent writes
+            </li>
+            <li class="fragment">Eventually-consistent</li>
+            <li class="fragment">
+              Takes up to 60 seconds to propagate to edge locations
+            </li>
+            <li class="fragment">Bad for non-atomic operations</li>
+            <li class="fragment">
+              very infrequent read values are stored centrally
+            </li>
+          </ul>
+        </section>
+        <section data-auto-animate>
+          <h2>Workers KV</h2>
+          <pre><code class="language-javascript" data-trim data-line-numbers="|6">
+          addEventListener("fetch", event => {
+            event.respondWith(handleRequest(event.request))
+          })
+          
+          async function handleRequest(request) {
+            const value = await NAMESPACE.get("first-key")
+            if (value === null) {
+              return new Response("Value not found", {status: 404})
+            }
+          
+            return new Response(value)
+          }</code></pre>
+        </section>
+        <section data-auto-animate>
+          <h2>Durable Objects</h2>
+          <ul>
+            <li class="fragment">Strongly-consistent</li>
+            <li class="fragment">Only stored in one datacenter at a time</li>
+            <li class="fragment">
+              Every worker with the object's ID can send messages to it
+            </li>
+            <li class="fragment">Stored on disk...</li>
+            <li class="fragment">Also In-Memory</li>
+            <li class="fragment">
+              Automatically migrates to the closest datacenter
+            </li>
+          </ul>
+        </section>
+        <section data-auto-animate>
+          <h2>Durable Objects</h2>
+          <p>Perfect use case:</p>
+          <p>Real-time collaborative document editing</p>
+        </section>
+        <section>
+          <h2>Local development</h2>
+          <ul>
+            <li class="fragment">Wrangler CLI</li>
+            <li class="fragment">
+              Miniflare: Fully-local simulator for Cloudflare Workers
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>🔥 Miniflare</h2>
+          <ul>
+            <li>
+              supports most Workers features, including KV, Durable Objects,
+              WebSockets, modules and more.
+            </li>
+            <li>
+              test and develop Workers without an internet connection. Reload
+              code on change quickly.
+            </li>
+          </ul>
+        </section>
+        <section>
+          Sources
+          <ul>
+            <li>https://workers.cloudflare.com/</li>
+            <li>
+              https://blog.cloudflare.com/eliminating-cold-starts-with-cloudflare-workers/
+            </li>
+            <li>
+              https://blog.cloudflare.com/backwards-compatibility-in-cloudflare-workers/
+            </li>
+            <li>
+              https://blog.cloudflare.com/introducing-workers-durable-objects/
+            </li>
+            <li>https://github.com/cloudflare/miniflare</li>
+          </ul>
+        </section>
+      </div>
+    </div>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
 </html>
