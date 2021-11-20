@@ -24,13 +24,13 @@
           <p>A serverless execution environment at the edge</p>
         </section>
         <section>
-          <p>Serverless:</p>
+          <p>Serverless</p>
           <ul>
             <li>Only write functions</li>
-            <li>No need to manage servers</li>
+            <li>No need to manage servers, VMs or containers</li>
+            <li>No manual security updates needed*</li>
             <li>Instant automatic scaling</li>
             <li>Pay-Per-Use</li>
-            <li>No manual security updates needed*</li>
           </ul>
         </section>
         <section>
@@ -142,14 +142,39 @@
         <section>
           <h1>Limits</h1>
           <ul>
-            <li>50ms CPU Time*</li>
-            <li>128MB per Worker isolate</li>
-            <li>1MB maximum script size*</li>
+            <li class="fragment">30s CPU Time</li>
+            <li class="fragment">128MB per Worker isolate</li>
+            <li class="fragment">1MB maximum script size (soon 2MB)</li>
           </ul>
         </section>
+        <section><img data-src="assets/pricing.PNG" /></section>
         <section>
           <h2>Pricing</h2>
-          <p>Generous free plan</p>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Free plan</th>
+                <th>Paid Plan - Unbound</th>
+                <th>Paid plan - Bundled</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Requests</td>
+                <td>100,000 / day</td>
+                <td>1 million, + $0.15/million</td>
+                <td>10 million, +$0.50/million</td>
+              </tr>
+              <tr>
+                <td>Duration</td>
+                <td>10ms CPU time / invocation</td>
+                <td>400,000 GB-s, + $12.50/million GB-s<sup>1,2</sup></td>
+                <td>50 ms CPU time / invocation</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="fragment">Minimum of $5 per month on the Paid Plan</p>
         </section>
 
         <section>
@@ -210,6 +235,43 @@
           <h2>Durable Objects</h2>
           <p>Perfect use case:</p>
           <p>Real-time collaborative document editing</p>
+          <aside class="notes">
+            https://edge-chat-demo.cloudflareworkers.com/#neugelb
+          </aside>
+        </section>
+        <section data-auto-animate>
+          <h2>R2 Storage</h2>
+          <ul>
+            <li class="fragment">
+              Rapid and Reliable Object Storage, minus the egress fees
+            </li>
+            <li class="fragment">Think AWS S3 or Azure Blob Storage</li>
+            <li class="fragment">
+              Automatically replicates frequently requested objects to other
+              regions
+            </li>
+            <li class="fragment">Automatic tiering</li>
+            <li class="fragment">
+              Complies with data sovereignty requirements (same as Durable
+              Objects)
+            </li>
+          </ul>
+        </section>
+        <section data-auto-animate>
+          <h2>R2 Storage</h2>
+          <ul>
+            <li class="fragment">Free egress (downloading of data)</li>
+            <li class="fragment">
+              Free infrequent storage operations (single digits per second)
+            </li>
+            <li class="fragment">$0.015 per GB of data stored per month</li>
+            <li class="fragment">AWS S3: $0.0245</li>
+            <li class="fragment">Azure Blob Storage: $0.02</li>
+          </ul>
+        </section>
+        <section>
+          <h2>R2 Storage</h2>
+          <p>Not yet generally available 😢</p>
         </section>
         <section>
           <h2>Local development</h2>
@@ -234,9 +296,58 @@
           </ul>
         </section>
         <section>
+          <h3>Environments</h3>
+          <div class="fragment">
+            <pre><code data-trim>
+              # wrangler.toml
+              type = "webpack"
+              name = "my-worker-dev"
+              account_id = "12345678901234567890"
+              zone_id = "09876543210987654321"
+              route = "dev.example.com/*"
+              vars = { ENVIRONMENT = "dev" }
+              
+              [env.staging]
+              name = "my-worker-staging"
+              vars = { ENVIRONMENT = "staging" }
+              route = "staging.example.com/*"
+              
+              [env.production]
+              name = "my-worker"
+              vars = { ENVIRONMENT = "production" }
+              routes = [
+              "example.com/foo/*",
+              "example.com/bar/*"
+              ]</code></pre>
+          </div>
+        </section>
+        <section>
+          <h2>Cloudflare Pages</h2>
+          <ul>
+            <li>Host static sites</li>
+            <li><b>Preview link</b> for every commit</li>
+            <li>Globally deployed</li>
+            <li>Built-in, privacy-first, free web analytics</li>
+            <li>Workers support</li>
+            <li>Image compression and Device-based resizing</li>
+            <li>
+              Coming soon: Webhooks for CMS integration with preview links
+            </li>
+            <li>Coming soon: A/B testing</li>
+          </ul>
+        </section>
+        <section>
+          <p>Want to learn more about Cloudflare Workers?</p>
+          <p>
+            Check out this open-source headless CMS build by Cloudflare:
+            https://blog.cloudflare.com/production-saas-intro/
+          </p>
+        </section>
+        <section>
           Sources
           <ul>
             <li>https://workers.cloudflare.com/</li>
+            <li>https://blog.cloudflare.com/introducing-cloudflare-workers/</li>
             <li>
               https://blog.cloudflare.com/eliminating-cold-starts-with-cloudflare-workers/
             </li>
