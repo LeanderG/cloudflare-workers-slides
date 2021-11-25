@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
 
-    <title>reveal.js</title>
+    <title>Cloudflare Workers</title>
 
     <link rel="stylesheet" href="dist/reset.css" />
     <link rel="stylesheet" href="dist/reveal.css" />
@@ -20,8 +20,34 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <h1>Cloudflare Workers</h1>
+          <h2>Cloudflare Workers</h2>
           <p>A serverless execution environment at the edge</p>
+          <small>By Leander Gilles</small>
+        </section>
+        <section>
+          <h2>What we'll cover</h2>
+          <ul>
+            <li>Edge Computing</li>
+            <li>Serverless</li>
+            <li>Benefits of Workers</li>
+            <li>Limitations</li>
+            <li>Edge Storage</li>
+            <li>Cloudflare Pages</li>
+          </ul>
+        </section>
+        <section>
+          <img
+            data-src="assets/4500px-A_large_blank_world_map_with_oceans_marked_in_blue1.png"
+          />
+        </section>
+        <section>
+          <img
+            data-src="assets/4500px-A_large_blank_world_map_with_oceans_marked_in_blue2.png"
+          />
+        </section>
+        <section>
+          <p>Edge Computing</p>
+          <img data-src="assets/image1-3_2.png" />
         </section>
         <section>
           <p>Serverless</p>
@@ -44,19 +70,11 @@
 				}</code></pre>
         </section>
         <section>
-          Workers are deployed to 250+ datacenters worldwide
-          <p>Azure Functions only deploys to one datacenter at a time</p>
-        </section>
-        <section>Edge computing<img data-src="assets/image1-3.png" /></section>
-        <section>
           Cold starts
           <img data-src="assets/cold-start-clock@2x.png" />
         </section>
         <section>
-          <p>
-            Neugelb's Christmas project backend runs on Azure Functions and
-            sometimes takes 10s to respond
-          </p>
+          <p>Azure Functions and sometimes takes 10s to respond</p>
         </section>
         <section><img data-src="assets/isolates-model@2x-1.png" /></section>
         <section>
@@ -71,6 +89,17 @@
               data-src="assets/Workers-handshake-before-@2x.png"
             />
           </div>
+        </section>
+        <section>
+          <ul>
+            <li>Uses Google's V8 JavaScript Engine under the hood</li>
+            <li class="fragment">... same as Chormium and Node.js</li>
+            <li class="fragment">Support for JS, Rust, C and C++</li>
+          </ul>
+          <img
+            width="400px"
+            data-src="assets/1200px-V8_JavaScript_engine_logo_2.png"
+          />
         </section>
         <section><h2>Workers are not Node.js</h2></section>
         <section>
@@ -109,7 +138,7 @@
         <section>
           Cloudflare's policy on breaking changes:
           <blockquote class="fragment">
-            "A change to the Workers Runtime must never break an application
+            "A change to the Workers runtime must never break an application
             that is live in production."
           </blockquote>
         </section>
@@ -124,7 +153,7 @@
           </code></pre>
         </section>
         <section>
-          <p>How does the Worker Runtime implement compatibility dates?</p>
+          <p>How does the Workers runtime implement compatibility dates?</p>
           <div class="fragment">
             <pre><code data-trim>
             if (compatibility_date < "2021-09-20") {
@@ -136,11 +165,11 @@
           </div>
         </section>
         <section>
-          The Worker Runtime is updated at least once a week
+          The Workers runtime is updated at least once a week
           <p class="fragment">Workers are given 30s to complete any requests</p>
         </section>
         <section>
-          <h1>Limits</h1>
+          <h2>Limits</h2>
           <ul>
             <li class="fragment">30s CPU Time</li>
             <li class="fragment">128MB per Worker isolate</li>
@@ -180,6 +209,12 @@
         <section>
           What's the point of Edge Computing without Edge Storage?
         </section>
+        <section>
+          <img data-src="assets/image1-3_2.png" />
+        </section>
+        <section>
+          <img data-src="assets/image1-3_3.png" />
+        </section>
         <section data-auto-animate>
           <h2>Workers KV</h2>
           is a global, low-latency, key-value data store
@@ -196,7 +231,7 @@
             </li>
             <li class="fragment">Bad for non-atomic operations</li>
             <li class="fragment">
-              very infrequent read values are stored centrally
+              Very infrequent read values are stored centrally
             </li>
           </ul>
         </section>
@@ -247,8 +282,7 @@
             </li>
             <li class="fragment">Think AWS S3 or Azure Blob Storage</li>
             <li class="fragment">
-              Automatically replicates frequently requested objects to other
-              regions
+              Replicates frequently requested objects to other regions
             </li>
             <li class="fragment">Automatic tiering</li>
             <li class="fragment">
@@ -274,6 +308,29 @@
           <p>Not yet generally available 😢</p>
         </section>
         <section>
+          <h2>Storage summary</h2>
+          <ul>
+            <li>KV</li>
+            <li>Durable Objects</li>
+            <li>R2</li>
+            <li>Cache</li>
+          </ul>
+        </section>
+        <section>
+          <h3>Location-based personalization</h3>
+          <ul>
+            <li>Country: “US”</li>
+            <li>City: “Austin”</li>
+            <li>Continent: “NA”</li>
+            <li>Latitude: "30.27130"</li>
+            <li>Longitude: “-97.74260”</li>
+            <li>Postal code: "78701"</li>
+            <li>Metro code(dma): “635”</li>
+            <li>Region: “Texas”</li>
+            <li>Timezone: “America/Chicago”</li>
+          </ul>
+        </section>
+        <section>
           <h2>Local development</h2>
           <ul>
             <li class="fragment">Wrangler CLI</li>
@@ -286,13 +343,11 @@
           <h2>🔥 Miniflare</h2>
           <ul>
             <li>
-              supports most Workers features, including KV, Durable Objects,
+              Supports most Workers features, including KV, Durable Objects,
               WebSockets, modules and more.
             </li>
-            <li>
-              test and develop Workers without an internet connection. Reload
-              code on change quickly.
-            </li>
+            <li>Test and develop Workers without an internet connection</li>
+            <li>Reload code on change quickly</li>
           </ul>
         </section>
         <section>
@@ -319,21 +374,33 @@
               "example.com/foo/*",
               "example.com/bar/*"
               ]</code></pre>
+            <p class="fragment">wrangler publish --env staging</p>
           </div>
+        </section>
+        <section>
+          <h2>Similar products</h2>
+          <ul>
+            <li>AWS Lambda@Edge</li>
+            <li>Fastly Compute@Edge</li>
+            <li>And many more</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Infastructure as Code (IaC)</h2>
+          <ul>
+            <li>Terraform</li>
+            <li>Serverless Framework</li>
+          </ul>
         </section>
         <section>
           <h2>Cloudflare Pages</h2>
           <ul>
             <li>Host static sites</li>
-            <li><b>Preview link</b> for every commit</li>
+            <li>Preview link for every commit</li>
             <li>Globally deployed</li>
             <li>Built-in, privacy-first, free web analytics</li>
             <li>Workers support</li>
-            <li>Image compression and Device-based resizing</li>
-            <li>
-              Coming soon: Webhooks for CMS integration with preview links
-            </li>
-            <li>Coming soon: A/B testing</li>
+            <li>Image compression and device-based resizing</li>
           </ul>
         </section>
         <section>
