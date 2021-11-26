@@ -36,14 +36,15 @@
           </ul>
         </section>
         <section>
-          <img
-            data-src="assets/4500px-A_large_blank_world_map_with_oceans_marked_in_blue1.png"
-          />
-        </section>
-        <section>
-          <img
-            data-src="assets/4500px-A_large_blank_world_map_with_oceans_marked_in_blue2.png"
-          />
+          <div class="r-stack">
+            <img
+              data-src="assets/4500px-A_large_blank_world_map_with_oceans_marked_in_blue1.png"
+            />
+            <img
+              class="fragment"
+              data-src="assets/4500px-A_large_blank_world_map_with_oceans_marked_in_blue2.png"
+            />
+          </div>
         </section>
         <section>
           <p>Edge Computing</p>
@@ -56,6 +57,7 @@
             <li>No need to manage servers, VMs or containers</li>
             <li>No manual security updates needed*</li>
             <li>Instant automatic scaling</li>
+            <li>Simple deployments</li>
             <li>Pay-Per-Use</li>
           </ul>
         </section>
@@ -176,7 +178,6 @@
             <li class="fragment">1MB maximum script size (soon 2MB)</li>
           </ul>
         </section>
-        <section><img data-src="assets/pricing.PNG" /></section>
         <section>
           <h2>Pricing</h2>
           <table>
@@ -189,13 +190,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr class="fragment">
                 <td>Requests</td>
                 <td>100,000 / day</td>
                 <td>1 million, + $0.15/million</td>
                 <td>10 million, +$0.50/million</td>
               </tr>
-              <tr>
+              <tr class="fragment">
                 <td>Duration</td>
                 <td>10ms CPU time / invocation</td>
                 <td>400,000 GB-s, + $12.50/million GB-s<sup>1,2</sup></td>
@@ -205,15 +206,16 @@
           </table>
           <p class="fragment">Minimum of $5 per month on the Paid Plan</p>
         </section>
+        <section><img data-src="assets/pricing.PNG" /></section>
 
         <section>
           What's the point of Edge Computing without Edge Storage?
         </section>
         <section>
-          <img data-src="assets/image1-3_2.png" />
-        </section>
-        <section>
-          <img data-src="assets/image1-3_3.png" />
+          <div class="r-stack">
+            <img data-src="assets/image1-3_2.png" />
+            <img class="fragment" data-src="assets/image1-3_3.png" />
+          </div>
         </section>
         <section data-auto-animate>
           <h2>Workers KV</h2>
@@ -259,8 +261,8 @@
             <li class="fragment">
               Every worker with the object's ID can send messages to it
             </li>
-            <li class="fragment">Stored on disk...</li>
-            <li class="fragment">Also In-Memory</li>
+            <li class="fragment">Stored in-memory</li>
+            <li class="fragment">Also persistet to disk</li>
             <li class="fragment">
               Automatically migrates to the closest datacenter
             </li>
@@ -270,9 +272,6 @@
           <h2>Durable Objects</h2>
           <p>Perfect use case:</p>
           <p>Real-time collaborative document editing</p>
-          <aside class="notes">
-            https://edge-chat-demo.cloudflareworkers.com/#neugelb
-          </aside>
         </section>
         <section data-auto-animate>
           <h2>R2 Storage</h2>
@@ -294,7 +293,7 @@
         <section data-auto-animate>
           <h2>R2 Storage</h2>
           <ul>
-            <li class="fragment">Free egress (downloading of data)</li>
+            <li class="fragment">Free egress (downloading data)</li>
             <li class="fragment">
               Free infrequent storage operations (single digits per second)
             </li>
@@ -303,7 +302,7 @@
             <li class="fragment">Azure Blob Storage: $0.02</li>
           </ul>
         </section>
-        <section>
+        <section data-auto-animate>
           <h2>R2 Storage</h2>
           <p>Not yet generally available 😢</p>
         </section>
@@ -318,7 +317,7 @@
         </section>
         <section>
           <h3>Location-based personalization</h3>
-          <ul>
+          <ul class="fragment">
             <li>Country: “US”</li>
             <li>City: “Austin”</li>
             <li>Continent: “NA”</li>
@@ -386,45 +385,95 @@
           </ul>
         </section>
         <section>
-          <h2>Infastructure as Code (IaC)</h2>
+          <h2>Infastructure as Code</h2>
           <ul>
             <li>Terraform</li>
             <li>Serverless Framework</li>
           </ul>
         </section>
         <section>
-          <h2>Cloudflare Pages</h2>
+          <p>Want to learn more?</p>
+          <p>Open-source headless CMS build by Cloudflare:</p>
+          <p>
+            <a href="https://blog.cloudflare.com/production-saas-intro/"
+              >https://blog.cloudflare.com/production-saas-intro/</a
+            >
+          </p>
+        </section>
+
+        <section>
+          <h2>Bonus Slide: Cloudflare Pages</h2>
           <ul>
             <li>Host static sites</li>
-            <li>Preview link for every commit</li>
             <li>Globally deployed</li>
             <li>Built-in, privacy-first, free web analytics</li>
             <li>Workers support</li>
             <li>Image compression and device-based resizing</li>
+            <li>This presentation is hosted on Pages</li>
+            <li>Preview link for every commit on GitHub or GitLab</li>
           </ul>
         </section>
         <section>
-          <p>Want to learn more about Cloudflare Workers?</p>
-          <p>
-            Check out this open-source headless CMS build by Cloudflare:
-            https://blog.cloudflare.com/production-saas-intro/
-          </p>
+          <img data-src="assets/preview.PNG" />
         </section>
         <section>
-          Sources
+          <h2>Bonus Slide 2: Cloudflare Tunnel</h2>
           <ul>
-            <li>https://workers.cloudflare.com/</li>
-            <li>https://blog.cloudflare.com/introducing-cloudflare-workers/</li>
+            <li>Share your local development environment with collaborators</li>
+          </ul>
+          <blockquote style="width: 1000px; text-align: left">
+            $ brew install cloudflare/cloudflare/cloudflared <br />$ cloudflared
+            login <br />$ cloudflared tunnel --url http://localhost:3000
+          </blockquote>
+        </section>
+        <section>
+          <img data-src="assets/dog.gif" />
+        </section>
+        <section>
+          Links
+          <ul>
             <li>
-              https://blog.cloudflare.com/eliminating-cold-starts-with-cloudflare-workers/
+              <a href="https://github.com/LeanderG/cloudflare-workers-slides"
+                >https://github.com/LeanderG/cloudflare-workers-slides</a
+              >
             </li>
             <li>
-              https://blog.cloudflare.com/backwards-compatibility-in-cloudflare-workers/
+              <a href="https://workers.cloudflare.com/"
+                >https://workers.cloudflare.com/</a
+              >
             </li>
             <li>
-              https://blog.cloudflare.com/introducing-workers-durable-objects/
+              <a
+                href="https://blog.cloudflare.com/introducing-cloudflare-workers/"
+                >https://blog.cloudflare.com/introducing-cloudflare-workers/</a
+              >
             </li>
-            <li>https://github.com/cloudflare/miniflare</li>
+            <li>
+              <a
+                href="https://blog.cloudflare.com/eliminating-cold-starts-with-cloudflare-workers/"
+              >
+                https://blog.cloudflare.com/eliminating-cold-starts-with-cloudflare-workers/</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://blog.cloudflare.com/backwards-compatibility-in-cloudflare-workers/"
+              >
+                https://blog.cloudflare.com/backwards-compatibility-in-cloudflare-workers/</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://blog.cloudflare.com/introducing-workers-durable-objects/"
+              >
+                https://blog.cloudflare.com/introducing-workers-durable-objects/</a
+              >
+            </li>
+            <li>
+              <a href="https://github.com/cloudflare/miniflare"
+                >https://github.com/cloudflare/miniflare</a
+              >
+            </li>
           </ul>
         </section>
       </div>
